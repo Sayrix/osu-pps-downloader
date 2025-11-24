@@ -1,0 +1,12 @@
+diff --git a/build/reconciler.js b/build/reconciler.js
+index 0ae482322b07dca19f95e6d50c7c5fb51b3af8a5..acc26ce2b4508488d0e512ebe4aab1439df06c58 100644
+--- a/build/reconciler.js
++++ b/build/reconciler.js
+@@ -8,6 +8,7 @@ import applyStyles from './styles.js';
+ // We need to conditionally perform devtools connection to avoid
+ // accidentally breaking other third-party code.
+ // See https://github.com/vadimdemedes/ink/issues/384
++// PATCHED: Commented out devtools import to fix build
+ /*
+ if (process.env['DEV'] === 'true') {
+     try {
