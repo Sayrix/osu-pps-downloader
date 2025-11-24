@@ -12,6 +12,10 @@ Download the latest release from the [Releases](https://github.com/Sayrix/osu-pp
 
 ![osu! pps downloader - downloader configuration showcase](https://raw.githubusercontent.com/Sayrix/osu-pps-downloader/refs/heads/main/github/readme2.gif)
 
+# 💬 Discord
+
+You can join the Discord server: [here](https://discord.gg/VasYV6MEJy).
+
 # How to contribute
 
 This project fully uses [Bun](https://bun.sh/) as its runtime and package manager. To contribute, please follow these steps:
