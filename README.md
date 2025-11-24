@@ -1,4 +1,4 @@
-# osu-pps-downloader
+# osu! pps downloader
 
 Easily download osu! mapsets based on their overweightness thanks to [`osu-pps.com`](https://osu-pps.com/)'s ratings.
 
