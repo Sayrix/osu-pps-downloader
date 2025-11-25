@@ -6,6 +6,7 @@ import { fetchAndParseDiffsCsv, fetchAndParseMapsetsCsv } from "../lib/osu-pps";
 import { getOsuLazerBeatmaps, getOsuStableBeatmaps } from "../lib/osu/scanner";
 import { estimateTotalBytes } from "../lib/size-estimates";
 import { calculateStats } from "../lib/stats";
+import { checkForUpdates } from "../lib/update-checker";
 import type { BeatmapDiff, BeatmapSet, InstalledBeatmap } from "../types";
 import DownloadManager from "./DownloadManager";
 import FilterConfig from "./FilterConfig";
@@ -72,6 +73,7 @@ function App() {
 	const [mapsets, setMapsets] = useState<BeatmapSet[]>([]);
 	const [installed, setInstalled] = useState<InstalledBeatmap[]>([]);
 	const [osuVersion, setOsuVersion] = useState<"stable" | "lazer" | null>(null);
+	const [updateAvailable, setUpdateAvailable] = useState<string | null>(null);
 
 	// Filter state
 	const [minStar, setMinStar] = useState(0);
@@ -156,6 +158,10 @@ function App() {
 	}
 
 	useEffect(() => {
+		checkForUpdates().then(setUpdateAvailable);
+	}, []);
+
+	useEffect(() => {
 		if (step === "download-diffs") {
 			fetchAndParseDiffsCsv(undefined, (p) => setProgress(p))
 				.then((data) => {
@@ -204,6 +210,14 @@ function App() {
 		<ThemeProvider theme={customTheme}>
 			<Box flexDirection="column" padding={1}>
 				<Logo />
+				{updateAvailable && (
+					<Box borderStyle="round" borderColor="yellow" flexDirection="column" paddingX={1} marginTop={1}>
+						<Text color="yellow">Update available: v{updateAvailable}</Text>
+						<Text>
+							Download it at: <Text color="cyan">https://github.com/Sayrix/osu-pps-downloader/releases/latest</Text>
+						</Text>
+					</Box>
+				)}
 				<Box height={1} />
 
 				{(step === "download-diffs" || step === "download-mapsets") && (
