@@ -1,7 +1,22 @@
 import { existsSync, readFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
-const CONFIG_FILE = join(process.cwd(), "config.txt");
+const CONFIG_FILENAME = "config.txt";
+
+// Try to find config in CWD or next to executable
+function getConfigPath(): string {
+	const cwdPath = join(process.cwd(), CONFIG_FILENAME);
+	if (existsSync(cwdPath)) return cwdPath;
+
+	// Fallback to executable directory
+	const exeDir = dirname(process.execPath);
+	const exePath = join(exeDir, CONFIG_FILENAME);
+	if (existsSync(exePath)) return exePath;
+
+	return cwdPath; // Default to CWD even if missing
+}
+
+const CONFIG_FILE = getConfigPath();
 let cachedDownloadPath: string | undefined;
 
 function parseConfigFile(): Record<string, string> {
@@ -26,6 +41,10 @@ function parseConfigFile(): Record<string, string> {
 		// Ignore parse errors
 	}
 	return result;
+}
+
+export function getDebug(): boolean {
+	return process.argv.includes("--debug");
 }
 
 export function getDownloadPath(): string {
