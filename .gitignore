@@ -3,3 +3,4 @@ dist/
 download/
 config.txt
 desktop.ini
+src/lib/realm-binaries/

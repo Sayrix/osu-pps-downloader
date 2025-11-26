@@ -1,0 +1,44 @@
+diff --git a/dist/platform/node/binding.js b/dist/platform/node/binding.js
+index 1234567..89abcde 100644
+--- a/dist/platform/node/binding.js
++++ b/dist/platform/node/binding.js
+@@ -16,7 +16,31 @@
+ ////////////////////////////////////////////////////////////////////////////
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const binding_1 = require("../binding");
++const path = require("path");
++const fs = require("fs");
++
++let nativeModule;
++
++// Check for environment variable set by the application (bundled asset path)
++if (process.env.REALM_BINDING_PATH) {
++    try {
++        nativeModule = require(process.env.REALM_BINDING_PATH);
++    } catch (e) {
++        // Ignore
++    }
++}
++
++// Try to find realm.node next to the executable (for standalone builds)
++if (!nativeModule) {
++    try {
++        const exeDir = path.dirname(process.execPath);
++        const adjacentPath = path.join(exeDir, "realm.node");
++        if (fs.existsSync(adjacentPath)) {
++            nativeModule = require(adjacentPath);
++        }
++    } catch (e) {
++        // Ignore errors checking for adjacent file
++    }
++}
++
++// Fallback to bundled/local require
++if (!nativeModule) {
+ // eslint-disable-next-line @typescript-eslint/no-var-requires
+-const nativeModule = require("#realm.node");
++    nativeModule = require("#realm.node");
++}
++
+ (0, binding_1.injectNativeModule)(nativeModule, { Int64: binding_1.NativeBigInt, WeakRef });
+ //# sourceMappingURL=binding.js.map

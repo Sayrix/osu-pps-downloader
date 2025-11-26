@@ -7,11 +7,13 @@
 		"@eslint/js": "^9.39.1",
 		"@types/bun": "^1.3.3",
 		"@types/react": "^19.2.7",
+		"@types/tar-fs": "^2.0.4",
 		"@typescript-eslint/eslint-plugin": "^8.48.0",
 		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",
 		"prettier": "^3.6.2",
 		"prettier-eslint": "17.0.0-alpha.1",
+		"tar-fs": "^3.1.1",
 		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {
@@ -19,11 +21,12 @@
 	},
 	"scripts": {
 		"start": "bun run src/index.tsx",
-		"build:linux-x64": "bun build ./src/index.tsx --outdir=dist --target=node --sourcemap --define \"process.env.NODE_ENV='development'\" && bun build --compile dist/index.js --minify --sourcemap --target=bun-linux-x64 --outfile dist/osu-pps-downloader_linux-x64",
-		"build:linux-arm64": "bun build ./src/index.tsx --outdir=dist --target=node --sourcemap --define \"process.env.NODE_ENV='development'\" && bun build --compile dist/index.js --minify --sourcemap --target=bun-linux-arm64 --outfile dist/osu-pps-downloader_linux-arm64",
-		"build:windows-x64": "bun build ./src/index.tsx --outdir=dist --target=node --sourcemap --define \"process.env.NODE_ENV='development'\" && bun build --compile dist/index.js --windows-icon=./src/icon.ico --windows-title=\"osu!pps downloader\"  --windows-description=\"osu!pps downloader\" --windows-publisher=\"Sayrix\" --minify --sourcemap --target=bun-windows-x64 --outfile dist/osu-pps-downloader_windows-x64.exe",
-		"build:darwin-arm64": "bun build ./src/index.tsx --outdir=dist --target=node --sourcemap --define \"process.env.NODE_ENV='development'\" && bun build --compile dist/index.js --minify --sourcemap --target=bun-darwin-arm64 --outfile dist/osu-pps-downloader_darwin-arm64",
-		"build": " bun run build:windows-x64 && bun run build:linux-x64 && bun run build:linux-arm64 && bun run build:darwin-arm64"
+		"build:linux-x64": "bun build --compile ./src/index.tsx --minify --sourcemap --target=bun-linux-x64 --outfile dist/osu-pps-downloader_linux-x64 --define \"process.env.NODE_ENV='development'\"",
+		"build:linux-arm64": "bun build --compile ./src/index.tsx --minify --sourcemap --target=bun-linux-arm64 --outfile dist/osu-pps-downloader_linux-arm64 --define \"process.env.NODE_ENV='development'\"",
+		"build:windows-x64": "bun build --compile ./src/index.tsx --windows-icon=./src/icon.ico --windows-title=\"osu!pps downloader\"  --windows-description=\"osu!pps downloader\" --windows-publisher=\"Sayrix\" --minify --sourcemap --target=bun-windows-x64 --outfile dist/osu-pps-downloader_windows-x64.exe --define \"process.env.NODE_ENV='development'\"",
+		"build:darwin-arm64": "bun build --compile ./src/index.tsx --minify --sourcemap --target=bun-darwin-arm64 --outfile dist/osu-pps-downloader_darwin-arm64 --define \"process.env.NODE_ENV='development'\"",
+		"build": "bun run setup && bun run build:windows-x64 && bun run build:linux-x64 && bun run build:linux-arm64 && bun run build:darwin-arm64",
+		"setup": "bun run scripts/setup-realm.ts"
 	},
 	"dependencies": {
 		"@inkjs/ui": "^2.0.0",
@@ -35,6 +38,7 @@
 	},
 	"patchedDependencies": {
 		"ink@6.5.1": "patches/ink@6.5.1.patch",
-		"react@19.2.0": "patches/react@19.2.0.patch"
+		"react@19.2.0": "patches/react@19.2.0.patch",
+		"realm@20.2.0": "patches/realm@20.2.0.patch"
 	}
 }

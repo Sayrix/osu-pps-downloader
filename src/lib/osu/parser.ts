@@ -291,7 +291,8 @@ export function getOsuLazerExecutablePath(): string {
 export async function openLazerRealm(realmPath: string) {
 	// Dynamic import to avoid crashing if realm is not installed
 	try {
-		const Realm = (await import("realm")).default;
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		const Realm = require("realm");
 
 		const FileSchema = {
 			name: "File",

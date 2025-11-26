@@ -1,6 +1,7 @@
 import { render } from "ink";
 import { dirname } from "node:path";
 import App from "./components/App";
+import "./init-realm";
 import { getDownloadPath } from "./lib/config";
 import { initDebugLog, logDebug } from "./lib/debug";
 import { getOsuLazerPath, getOsuStablePath } from "./lib/osu/parser";
